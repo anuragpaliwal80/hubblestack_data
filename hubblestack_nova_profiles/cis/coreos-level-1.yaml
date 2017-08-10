@@ -55,8 +55,16 @@ grep:
         - /etc/ssh/sshd_config:
             match_output: 'PasswordAuthentication no'
             pattern: ^\\s*PasswordAuthentication
-            tag: CIS-7.8
+            tag: CIS-7.4
       description: Ensure password authentication is disabled in sshd_config
+    sshd_approved_macs:
+      data:
+        '*CoreOS*':
+        - /etc/ssh/sshd_config:
+            match_output: 'MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com'
+            pattern: MACs
+            tag: CIS-5.2.12
+      description: Ensure only approved MAC algorithms are used  
     limit_su_access:
       data:
         '*CoreOS*':
@@ -68,16 +76,6 @@ grep:
             pattern: wheel
             tag: CIS-5.6
       description: Ensure access to the su command is restricted
-    journald_remote_logs:
-      data:
-        '*CoreOS*':
-        - /etc/systemd/journal-upload.conf:
-            pattern: \\[Upload\\]
-            tag: CIS-7.6
-        - /etc/systemd/journal-upload.conf:
-            pattern: ^\\s*URL=
-            tag: CIS-7.6
-      description: Ensure journald is configured to send remote logs
     chargen_disabled:
       data:
         Red Hat Enterprise Server-7:
@@ -390,14 +388,6 @@ sysctl:
           match_output: '1'
           tag: CIS-3.2.8
     description: Ensure TCP SYN Cookies is enabled
-  sshd_approved_macs:
-    data:
-      '*CoreOS*':
-      - /etc/ssh/sshd_config:
-          match_output: 'MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com'
-          pattern: MACs
-          tag: CIS-5.2.12
-    description: Ensure only approved MAC algorithms are used
 stat:
   passwd_own_perm:
     data:
@@ -537,10 +527,20 @@ stat:
       - /etc/docker:
           gid: 0
           group: root
-          tag: CIS-7.2
+          tag: CIS-7.5
           uid: 0
           user: root
     description: Ensure that /etc/docker directory ownership is set to root:root
+  systemd_system_ownership:
+    data:
+      '*CoreOS*':
+      - /etc/systemd/system:
+          gid: 0
+          group: root
+          tag: CIS-7.2
+          uid: 0
+          user: root
+    description: Ensure that /etc/systemd/system directory ownership is set to root:root
 misc:
   system_account_non_login:
     data:
@@ -651,64 +651,16 @@ misc:
   docker_directory_permissions:
     data:
       '*CoreOS*':
-       tag: CIS-7.3
+       tag: CIS-7.6
        function: restrict_permissions
        args:
         - /etc/docker
         - 755
        description: Ensure that /etc/docker directory permissions are set to 755 or more restrictive
-  ssh_disabled_containers:
-    data:
-      '*CoreOS*':
-       tag: CIS-7.4
-       function: ensure_ssh_disabled_within_containers
-       description: Ensure ssh is not run within containers
-  privileged_ports_not_mapped_in_containers:
-    data:
-      '*CoreOS*':
-       tag: CIS-7.5
-       function: privileged_ports_not_mapped
-       description: Ensure privileged ports are not mapped within containers
-  sshd_config_symlink:
-    data:
-      '*CoreOS*':
-       tag: CIS-7.1.1
-       function: check_symlink
-       args:
-        - /etc/ssh/sshd_config
-        - /usr/share/ssh/sshd_config
-       description: Ensure that symlink to /etc/ssh/sshd_config is not broken
-  login_defs_symlink:
-    data:
-      '*CoreOS*':
-       tag: CIS-7.1.2
-       function: check_symlink
-       args:
-        - /etc/login.defs
-        - ../usr/share/shadow/login.defs
-       description: Ensure that symlink to /etc/login.defs is not broken
-  ntp_conf_symlink:
-    data:
-      '*CoreOS*':
-       tag: CIS-7.1.3
-       function: check_symlink
-       args:
-        - /etc/ntp.conf
-        - /usr/share/ntp/ntp.conf
-       description: Ensure that symlink to /etc/ntp.conf is not broken
-  sudo_conf_symlink:
-    data:
-      '*CoreOS*':
-       tag: CIS-7.1.4
-       function: check_symlink
-       args:
-        - /etc/sudo.conf
-        - ../usr/share/baselayout/sudo.conf
-       description: Ensure that symlink to /etc/sudo.conf is not broken
   time_sync:
     data:
       '*CoreOS*':
-       tag: CIS-7.7
+       tag: CIS-7.1
        function: check_time_synchronization
        description: Ensure that some service running to synchronize system time
   check_duplicate_uids:
@@ -750,4 +702,13 @@ misc:
         - /var/log
         - 740
        description: Ensure permissions on all logfiles are configured
+  systemd_system_permission:
+    data:
+      '*CoreOS*':
+       tag: CIS-7.3
+       function: restrict_permissions
+       args:
+        - /etc/systemd/system
+        - 755
+       description: Ensure that /etc/systemd/system directory permissions are set to 755 or more restrictive
 
