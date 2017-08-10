@@ -76,66 +76,6 @@ grep:
             pattern: wheel
             tag: CIS-5.6
       description: Ensure access to the su command is restricted
-    chargen_disabled:
-      data:
-        Red Hat Enterprise Server-7:
-        - /etc/xinetd.d/chargen-dgram:
-            pattern: disable
-            match_output: 'yes'
-            tag: CIS-2.1.1
-        - /etc/xinetd.d/chargen-stream:
-            pattern: disable
-            match_output: 'yes'
-            tag: CIS-2.1.1
-      description: Ensure chargen services are not enabled
-    daytime_disabled:
-      data:
-        Red Hat Enterprise Server-7:
-        - /etc/xinetd.d/daytime-dgram:
-            pattern: disable
-            match_output: 'yes'
-            tag: CIS-2.1.2
-        - /etc/xinetd.d/daytime-stream:
-            pattern: disable
-            match_output: 'yes'
-            tag: CIS-2.1.2
-      description: Ensure daytime services are not enabled
-    discard_disabled:
-      data:
-        Red Hat Enterprise Server-7:
-        - /etc/xinetd.d/discard-dgram:
-            pattern: disable
-            match_output: 'yes'
-            tag: CIS-2.1.3
-        - /etc/xinetd.d/discard-stream:
-            pattern: disable
-            match_output: 'yes'
-            tag: CIS-2.1.3
-      description: Ensure discard services are not enabled
-    echo_disabled:
-      data:
-        Red Hat Enterprise Server-7:
-        - /etc/xinetd.d/echo-dgram:
-            pattern: disable
-            match_output: 'yes'
-            tag: CIS-2.1.4
-        - /etc/xinetd.d/echo-stream:
-            pattern: disable
-            match_output: 'yes'
-            tag: CIS-2.1.4
-      description: Ensure echo services are not enabled
-    time_disabled:
-      data:
-        Red Hat Enterprise Server-7:
-        - /etc/xinetd.d/time-dgram:
-            pattern: disable
-            match_output: 'yes'
-            tag: CIS-2.1.5
-        - /etc/xinetd.d/time-stream:
-            pattern: disable
-            match_output: 'yes'
-            tag: CIS-2.1.5
-      description: Ensure time services are not enabled
     sshd_approved_cipher:
       data:
         '*CoreOS*':
@@ -268,13 +208,6 @@ sysctl:
           match_output: '1'
           tag: CIS-3.2.6
     description: Ensure bogus ICMP responses are ignored
-  restrict_suid_core_dumps:
-    data:
-      'Amazon Linux*':
-      - fs.suid_dumpable:
-          match_output: '0'
-          tag: CIS-1.5.1
-    description: Ensure core dumps are restricted
   disable_packet_redirect:
     data:
       '*CoreOS*':
