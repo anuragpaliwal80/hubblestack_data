@@ -260,18 +260,6 @@ grep:
             pattern: ^X11Forwarding
             tag: CIS-5.2.4
       description: Ensure SSH X11 forwarding is disabled
-service:
-  blacklist:
-    rsync:
-      data:
-        '*CoreOS*':
-        - rsyncd: CIS-2.2.20
-      description: Ensure rsync service is not enabled
-    pop3_imap:
-      data:
-        Red Hat Enterprise LInux Server-7:
-        - dovecot: CIS-2.2.11
-      description: Ensure IMAP and POP3 server is not enabled
 sysctl:
   bad_error_message_protection:
     data:
@@ -620,22 +608,6 @@ misc:
          - noexec
          - soft
        description: Ensure noexec option set on /dev/shm partition
-  dhcpd_not_enabled:
-    data:
-      '*CoreOS*':
-       tag: CIS-2.2.5
-       function: service_not_enabled
-       args:
-         - dhcpd
-       description: Ensure DHCP Server is not enabled
-  rsync_not_enabled:
-    data:
-      '*CoreOS*':
-       tag: CIS-2.2.20
-       function: service_not_enabled
-       args:
-         - rsync
-       description: Ensure rsync service is not enabled
   sticky_bit_on_writable_directories:
     data:
       '*CoreOS*':
