@@ -12,7 +12,7 @@ grep:
         - /etc/motd:
             pattern: '\\\\m'
             tag: CIS-1.7.1.1
-        - /etc/motd:
+        - /etc/motd
             pattern: '\\\\s'
             tag: CIS-1.7.1.1
       description: Ensure message of the day is configured properly
@@ -76,7 +76,7 @@ grep:
             match_output: 'MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com'
             pattern: MACs
             tag: CIS-5.2.12
-      description: Ensure only approved MAC algorithms are used  
+      description: Ensure only approved MAC algorithms are used
     limit_su_access:
       data:
         '*CoreOS*':

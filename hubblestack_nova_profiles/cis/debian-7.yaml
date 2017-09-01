@@ -7,7 +7,7 @@ grep:
 
     local_only_mta:
       data:
-        Debian*7:
+        Debian*7
           - '/etc/exim4/update-exim4.conf':
               tag: 'CIS-6.15'
               pattern: "^dc_local_interfaces = '127.0.0.1'"
