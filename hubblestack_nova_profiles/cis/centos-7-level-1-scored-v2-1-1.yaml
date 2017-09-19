@@ -1181,7 +1181,7 @@ misc:
        tag: CIS-6.2.14
        function: check_users_rhosts_files
        description: Ensure no users have .rhosts files
-  ensure_rsyslog_configured:
+  sshd_approved_macs:
     data:
       CentOS Linux-7:
        tag: CIS-5.2.12
